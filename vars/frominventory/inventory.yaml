@@ -1,0 +1,13 @@
+all:
+  hosts:
+    server1:
+      ansible_host: 192.168.1.10
+      web_package: apache2
+      service_name: apache2
+      index_file_path: /var/www/html/index.html
+    server2:
+      ansible_host: 192.168.1.11
+      web_package: httpd
+      service_name: httpd
+      index_file_path: /var/www/html/index.html
+

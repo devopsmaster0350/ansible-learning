@@ -1,0 +1,36 @@
+---
+- name: Installing Apache2 server on Ubuntu hosts
+  hosts: all
+  become: yes
+  tasks:
+    - name: Updating the packages
+      ansible.builtin.apt:
+        update_cache: yes
+        state: present
+
+    - name: Installing Apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+        when: {{ ansible_distribution }} == ""
+
+    - name: Copy the content
+      ansible.builtin.copy:
+        content: |
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Hello World</title>
+            </head>
+            <body>
+                <h1>Hello, World!</h1>
+            </body>
+            </html>
+        dest: /var/www/html/index.html
+
+    - name: Restart the Apache2 service
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
+        enabled: true
+

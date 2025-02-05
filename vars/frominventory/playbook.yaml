@@ -1,0 +1,38 @@
+---
+- name: Install and Configure Web Server
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install Web Server (Debian)
+      ansible.builtin.apt:
+        name: "{{ web_package }}"
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install Web Server (RedHat)
+      ansible.builtin.yum:
+        name: "{{ web_package }}"
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Deploy index.html
+      ansible.builtin.copy:
+        content: |
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Hello World</title>
+            </head>
+            <body>
+                <h1>Hello, World!</h1>
+            </body>
+            </html>
+        dest: "{{ index_file_path }}"
+
+    - name: Restart Web Server
+      ansible.builtin.service:
+        name: "{{ service_name }}"
+        state: restarted
+        enabled: true
+
