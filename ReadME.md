@@ -22,4 +22,13 @@
    ansible -i inventory.yaml all playbook.yaml --diff
    ansible -i inventory.yaml all playbook.yaml --check --diff # we can use this with --check also
   ```
-*   
+* how to pass configuration file from command line, this is explicitly passing configuration.
+```
+   ANSIBLE_CONFIG=/opt/ansible.cfg ansible-playbook platbook.yaml
+```
+* How to pass variables form command line
+```
+  ansible-playbook playbook.yml -e "variable_name=value"
+  ansible-playbook playbook.yml --extra-vars "variable_name=value"
+  ansible-playbook playbook.yml -e "var1=value1 var2=value2"
+```
