@@ -32,3 +32,23 @@
   ansible-playbook playbook.yml --extra-vars "variable_name=value"
   ansible-playbook playbook.yml -e "var1=value1 var2=value2"
 ```
+### ansible Roles
+* ansible roles commands
+  ```
+    ansible-galaxy list # list the installed roles
+    ansible-galaxy role install mysql # To install a role form ansible-galaxy
+    ansible-galaxy search mysql # To search a role in ansible-galaxy
+    ansible-galaxy remove mysql # To uninstall the role
+    ansible-galaxy init <role_name> # To create the structure of role in your local
+  
+  ```
+### Ansible Collections
+* ansible collection commands
+  ```
+    ansible-galaxy collection list # list the installed collections
+    ansible-galaxy collection install <collection_name> # To install a collection form ansible-galaxy
+    ansible-galaxy collection search <collection_name> # To search a collection in ansible-galaxy
+    ansible-galaxy collection remove <collection_name> # To uninstall the collection
+    ansible-galaxy collection init <collection_name> # To create the structure of role in your local
+  ```  
+  
