@@ -1,0 +1,48 @@
+    - name: Installing MySQL
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - mysql-server
+        - mysql-client
+    - name: start up the mysql service
+      shell: "service mysql start"
+
+    - name: Enabling the MySQL service
+      ansible.builtin.service:
+        name: mysql
+        state: started
+        enabled: true
+    - name: Change MySQL root authentication to password
+      shell: |
+        mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root'; FLUSH PRIVILEGES;"
+      args:
+        executable: /bin/bash
+
+    - name: Update MySQL root password for all root accounts
+      community.mysql.mysql_user:
+        name: root
+        password: "{{ mysql_root_passwd }}"
+        login_user: root
+        login_password: "{{ mysql_root_passwd }}"
+        check_implicit_admin: yes
+        priv: "*.*:ALL,GRANT"
+      loop:
+        - "{{ ansible_hostname }}"
+        - 127.0.0.1
+        - ::1
+        - localhost
+    - name: Create database user with name 'petclinic' and password 'petclinic' with all database privileges
+      community.mysql.mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_passwd }}"
+        priv: '*.*:ALL'
+        state: present
+        login_user: root
+        login_password: "{{ mysql_root_passwd }}"
+    - name: Create a new database with name 'petclinic'
+      community.mysql.mysql_db:
+        name: "{{ db_name }}"
+        login_user: root
+        login_password: "{{ mysql_root_passwd }}"
+        state: present
