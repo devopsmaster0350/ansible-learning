@@ -1,0 +1,7 @@
+# using roles in playbook
+- name: installing db and webservers
+  hosts: all
+  become: yes
+  roles:
+    - mysql_db
+    - petclinic-web      

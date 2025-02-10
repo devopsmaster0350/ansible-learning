@@ -1,0 +1,6 @@
+---
+# vars file for mysql_db
+mysql_root_passwd: root
+db_name: petclinic
+db_passwd: petclinic
+db_user: petclinic

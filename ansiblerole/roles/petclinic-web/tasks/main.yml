@@ -1,0 +1,23 @@
+---
+# tasks file for petclinic-web
+    - name: Installing Java 17 and Python MySQL dependencies
+      ansible.builtin.apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: true
+      loop:
+        - openjdk-17-jdk
+        - python3-pymysql  # Ensures Ansible can interact with MySQL
+
+    - name: Copying the JAR file
+      ansible.builtin.copy:
+        src: /home/devopsmaster/petclinic-docker-compose/target/app.jar
+        dest: /root/app.jar
+        mode: '0755'
+
+    - name: Running the application in background
+      shell: |
+        nohup java -jar /root/app.jar --server.port=8080 > /root/app.log 2>&1 &
+      args:
+        chdir: /root
+
